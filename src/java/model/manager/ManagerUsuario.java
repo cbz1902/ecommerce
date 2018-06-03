@@ -50,18 +50,42 @@ public class ManagerUsuario {
     }
 
     public boolean actualizar(Usuarios u) {
-        return true;
+        Connection c = null;
+        PreparedStatement pstmt = null;
+        boolean ret = false;
+        try {
+            pstmt = c.prepareStatement("UPDATE usuarios SET login_name = ? ,nombre=?, apellido=? WHERE id_usuario = ?");
+            pstmt.setString(1, u.getLogin_name());
+            pstmt.setString(2, u.getNombre());
+            pstmt.setString(3, u.getApellido());
+            pstmt.setInt(4, u.getId_usuario());
+            ret = pstmt.execute();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }finally{
+        
+            try {
+                if (pstmt != null) {
+                    pstmt.close();
+                }
+                connexion.closeConnection(c);
+            } catch (SQLException ex) {
+                Logger.getLogger(ManagerUsuario.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }  
+        return ret;
     }
 
-    public boolean eliminar(Usuarios u) {
+    public boolean eliminar(int id) {
         Connection c = null;
         PreparedStatement pstmt = null;
         boolean ret = false;
         try {
             c = connexion.getConnection();
-            pstmt = c.prepareStatement("DELETE FROM Usuarios WHERE id = ?");
+            pstmt = c.prepareStatement("DELETE FROM Usuarios WHERE id_usuario = ?");
 
-            pstmt.setInt(1, u.getId_usuario());
+            pstmt.setInt(1, id);
 
             ret = pstmt.execute();
         } catch (Exception e) {
@@ -86,7 +110,7 @@ public class ManagerUsuario {
         ResultSet rs = null;
         try {
             c = connexion.getConnection();
-            pstmt = c.prepareStatement("SELECT * FROM Usuarios WHERE id = ?");
+            pstmt = c.prepareStatement("SELECT * FROM Usuarios WHERE id_usuario = ?");
             pstmt.setInt(1, id);
             rs = pstmt.executeQuery();
             while (rs.next()) {
@@ -156,5 +180,43 @@ public class ManagerUsuario {
             }
         }
         return ret;
+    }
+    public Usuarios ingresar(String nombreUser, String pass){
+        
+        Connection c = null;
+        PreparedStatement ps = null;
+        Usuarios u = null;
+        ResultSet rs = null;
+        try {
+            c = connexion.getConnection();
+            ps = c.prepareStatement("SELECT * FROM usuarios WHERE login_name = ? and password = md5(?)");
+            ps.setString(1, nombreUser);
+            ps.setString(2, pass);
+            rs = ps.executeQuery();
+            while(rs.next()){
+                u = new Usuarios();
+                u.setId_usuario(rs.getInt("id_usuario"));
+                u.setNombre(rs.getString("nombre"));
+                u.setApellido(rs.getString("apellido"));
+                u.setLogin_name(rs.getString("login_name"));
+                u.setPassword(rs.getString("pass"));
+                u.setId_usuario(rs.getInt("tipo_usuario"));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }finally{
+            try {
+                if (rs != null) {
+                    rs.close();
+                }
+                if (ps != null) {
+                    ps.close();
+                }
+                connexion.closeConnection(c);
+            } catch (SQLException ex) {
+                Logger.getLogger(ManagerUsuario.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        return u;
     }
 }

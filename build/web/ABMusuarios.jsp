@@ -11,7 +11,9 @@
 <%
     ArrayList<Usuarios> elem;
     ManagerUsuario mc = new ManagerUsuario();
-    elem = mc.getAll();
+    elem = mc.getAll();HttpSession sesion = request.getSession(true);
+    Usuarios u = (Usuarios)sesion.getAttribute("usuario");
+    
 %>
 <!DOCTYPE html>
 <html>
@@ -36,23 +38,47 @@
                 <p></p>
                 <div>
                   <ul>
-                    <li><a class="active" href="index.jsp">Inicio</a></li>
+                    <li><a class="active" href="index.jsp">Home</a></li>
                     <li><a href="ABMproductos.jsp">Producto</a></li>
-                    <li><a href="#">La empresa</a></li>
-                    <li style="float:right"><a href="ABMcategorias.jsp">Contactenos</a></li>
+                    <%
+                        if(u != null){
+                    %>
+                        <%
+                            if(u.getTipo_usuario() == 0){
+                        %>
+                            <li><a href="ABMusuarios.jsp">ABM usuarios</a></li>
+                            <li><a href="ABMcategorias.jsp">ABM categoria</a></li>
+                            <li><a href="#">ABM productos</a></li>
+                        <%
+                            }
+                        %>
+                    <%
+                        }
+                    %>
                   </ul>
                 </div>
             </div>
             <div class="column side-header">
-                <p> Bienvenido: </p>
-                <button  class="button" type = "button" >Salir</button>
+                <%
+                    if(u != null){
+                %>
+                    <p> Bienvenido: <%=u.getLogin_name()%></p>
+                <%
+                    }else{
+                %>
+                    <p> Bienvenido:</p>
+                <%
+                    }
+                %>
+                <button  class="button" type = "button"onclick="
+                  location.href='ServletUsuario?accion=salir'" >Salir</button>
                 <button  class="button-carrito" type = "button" ><img src="img/carrito.png"> Comprar</button>
             </div>
         </div>
     </div>
     <div class="center">
         <h1 class="h1-titulo">Usuarios</h1>
-        <button class="button" type="button" onclick="location.href='/ecommerce/Acategorias.jsp'">Agregar Usuario</button>
+        <button class="button" type="button" onclick="location.href='/ecommerce/Ausuarios.jsp'">Agregar Usuario</button>
         <%
             if (elem != null) {
                 //tengo que dibujar la grilla de usuarios
@@ -84,9 +110,9 @@
             <td><%=list.getLogin_name()%></td>
             <td><%=tipo%></td>
             <td><form>
-              <button class="button" type="button" onclick="location.href='/ecommerce/Mcategorias.jsp?id=<%=list.getId_usuario()%>'">Editar</button>
+              <button class="button" type="button" onclick="location.href='/ecommerce/Musuarios.jsp?id=<%=list.getId_usuario()%>'">Editar</button>
               <button class="button" type="button" onclick="
-                  location.href='ServletCategoria?id=<%=list.getId_usuario()%>&accion=eliminar'">Eliminar</button>
+                  location.href='ServletUsuario?id=<%=list.getId_usuario()%>&accion=eliminar'">Eliminar</button>
             </form></td>
           </tr>
         <%

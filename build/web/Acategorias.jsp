@@ -4,7 +4,13 @@
     Author     : carlos
 --%>
 
+<%@page import="model.entidades.Usuarios"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%
+    HttpSession sesion = request.getSession(true);
+    Usuarios u = (Usuarios)sesion.getAttribute("usuario");
+
+%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -28,16 +34,40 @@
                 <p></p>
                 <div>
                   <ul>
-                    <li><a class="active" href="index.jsp">Inicio</a></li>
+                    <li><a class="active" href="index.jsp">Home</a></li>
                     <li><a href="ABMproductos.jsp">Producto</a></li>
-                    <li><a href="#">La empresa</a></li>
-                    <li style="float:right"><a href="ABMcategorias.jsp">Contactenos</a></li>
+                    <%
+                        if(u != null){
+                    %>
+                        <%
+                            if(u.getTipo_usuario() == 0){
+                        %>
+                            <li><a href="ABMusuarios.jsp">ABM usuarios</a></li>
+                            <li><a href="ABMcategorias.jsp">ABM categoria</a></li>
+                            <li><a href="#">ABM productos</a></li>
+                        <%
+                            }
+                        %>
+                    <%
+                        }
+                    %>
                   </ul>
                 </div>
             </div>
             <div class="column side-header">
-                <p> Bienvenido: </p>
-                <button  class="button" type = "button" >Salir</button>
+                <%
+                    if(u != null){
+                %>
+                    <p> Bienvenido: <%=u.getLogin_name()%></p>
+                <%
+                    }else{
+                %>
+                    <p> Bienvenido:</p>
+                <%
+                    }
+                %>
+                <button  class="button" type = "button"onclick="
+                  location.href='ServletUsuario?accion=salir'" >Salir</button>
                 <button  class="button-carrito" type = "button" ><img src="img/carrito.png"> Comprar</button>
             </div>
         </div>

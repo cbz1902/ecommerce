@@ -4,6 +4,7 @@
     Author     : carlos
 --%>
 
+<%@page import="model.entidades.Usuarios"%>
 <%@page import="model.manager.ManagerCategoria"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@page import="java.util.ArrayList"%>
@@ -12,6 +13,8 @@
     ArrayList<Categoria> elem;
     ManagerCategoria mc = new ManagerCategoria();
     elem = mc.getAll();
+    HttpSession sesion = request.getSession(true);
+    Usuarios u = (Usuarios)sesion.getAttribute("usuario");
 %>
 <!DOCTYPE html>
 <html>
@@ -36,16 +39,40 @@
                 <p></p>
                 <div>
                   <ul>
-                    <li><a class="active" href="index.jsp">Inicio</a></li>
+                    <li><a class="active" href="index.jsp">Home</a></li>
                     <li><a href="ABMproductos.jsp">Producto</a></li>
-                    <li><a href="#">La empresa</a></li>
-                    <li style="float:right"><a href="ABMcategorias.jsp">Contactenos</a></li>
+                    <%
+                        if(u != null){
+                    %>
+                        <%
+                            if(u.getTipo_usuario() == 0){
+                        %>
+                            <li><a href="ABMusuarios.jsp">ABM usuarios</a></li>
+                            <li><a href="ABMcategorias.jsp">ABM categoria</a></li>
+                            <li><a href="#">ABM productos</a></li>
+                        <%
+                            }
+                        %>
+                    <%
+                        }
+                    %>
                   </ul>
                 </div>
             </div>
             <div class="column side-header">
-                <p> Bienvenido: </p>
-                <button  class="button" type = "button" >Salir</button>
+                <%
+                    if(u != null){
+                %>
+                    <p> Bienvenido: <%=u.getLogin_name()%></p>
+                <%
+                    }else{
+                %>
+                    <p> Bienvenido:</p>
+                <%
+                    }
+                %>
+                <button  class="button" type = "button"onclick="
+                  location.href='ServletUsuario?accion=salir'" >Salir</button>
                 <button  class="button-carrito" type = "button" ><img src="img/carrito.png"> Comprar</button>
             </div>
         </div>
@@ -53,7 +80,7 @@
         
       <div class="center">
         <h1 class="h1-titulo">Categorias</h1>
-        <button class="button" type="button" onclick="location.href='/ecommerce/Acategorias.jsp'">Agregar Categoria</button>
+        <button class="button" type="button" onclick="location.href='/ecommerce/Ausuarios.jsp'">Agregar Categoria</button>
         <%
             if (elem != null) {
                 //tengo que dibujar la grilla de usuarios

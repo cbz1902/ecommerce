@@ -4,10 +4,15 @@
     Author     : carlos
 --%>
 
+<%@page import="model.entidades.Usuarios"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
+<%
+    HttpSession sesion = request.getSession(true);
+    Usuarios u = (Usuarios)sesion.getAttribute("usuario");
+
+%>
 <html>
-   <html>
 <head>
     <title>Bazar Shop Paraguay</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
@@ -29,16 +34,40 @@
                 <p></p>
                 <div>
                   <ul>
-                    <li><a class="active" href="index.jsp">Inicio</a></li>
+                    <li><a class="active" href="index.jsp">Home</a></li>
                     <li><a href="ABMproductos.jsp">Producto</a></li>
-                    <li><a href="#">La empresa</a></li>
-                    <li style="float:right"><a href="ABMcategorias.jsp">Contactenos</a></li>
+                    <%
+                        if(u != null){
+                    %>
+                        <%
+                            if(u.getTipo_usuario() == 0){
+                        %>
+                            <li><a href="ABMusuarios.jsp">ABM usuarios</a></li>
+                            <li><a href="ABMcategorias.jsp">ABM categoria</a></li>
+                            <li><a href="#">ABM productos</a></li>
+                        <%
+                            }
+                        %>
+                    <%
+                        }
+                    %>
                   </ul>
                 </div>
             </div>
             <div class="column side-header">
-                <p> Bienvenido: </p>
-                <button  class="button" type = "button" >Salir</button>
+                <%
+                    if(u != null){
+                %>
+                    <p> Bienvenido: <%=u.getLogin_name()%></p>
+                <%
+                    }else{
+                %>
+                    <p> Bienvenido:</p>
+                <%
+                    }
+                %>
+                <button  class="button" type = "button"onclick="
+                  location.href='ServletUsuario?accion=salir'" >Salir</button>
                 <button  class="button-carrito" type = "button" ><img src="img/carrito.png"> Comprar</button>
             </div>
         </div>
@@ -46,11 +75,12 @@
 
     <div class="row">
       <div class="column side">
-        <form id = "iniciarSesion" action="" method="POST">
+        <form name = "iniciarSesion" action="ServletUsuario" method="post">
           <fieldset>
             <legend>Iniciar Sesión:</legend>
-            Nombre Usuario: <input type="text"><br>
-            Password: <input type="password"><br>
+            Nombre Usuario: <input type="text" name ="user"><br>
+            Password: <input type="password" name ="pass"><br>
+            <input type="hidden" name="accion" value="ingresar">
             <button  class="button" type = "submit" >Ingresar</button>
           </fieldset>
         </form>

@@ -1,12 +1,11 @@
 <%-- 
-    Document   : Acategorias
-    Created on : 02/06/2018, 23:27:12
+    Document   : Musuarios
+    Created on : 03/06/2018, 14:33:28
     Author     : carlos
 --%>
 
 <%@page import="model.entidades.Usuarios"%>
-<%@page import="model.entidades.Categoria"%>
-<%@page import="model.manager.ManagerCategoria"%>
+<%@page import="model.manager.ManagerUsuario"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%
     HttpSession sesion = request.getSession(true);
@@ -74,32 +73,50 @@
             </div>
         </div>
     </div>
-        <%
+         <%
             int id = Integer.parseInt(request.getParameter("id"));
-            ManagerCategoria mc = new ManagerCategoria();
-            Categoria cat  = mc.getCategoriaById(id);
+            ManagerUsuario ma = new ManagerUsuario();
+            Usuarios user  = ma.getUsuariosById(id);
         %>
-      <div class="center">
-        <h1 class="h1-titulo">Categorias</h1>
-        <button class="button" type="button">Agregar Categoria</button>
-        <table>
-            <tr>
-                <th>
-                <form name="Mcategorias" action="ServletCategoria" method="post">
-                      <p>Id Categoria: <input type="text" readonly="readonly" value="<%=cat.getIdCategoria()%>" name ="id"></p>
-                      <p><input class="input-buscar" type="text" name ="descripcion" value="<%=cat.getDescripcion()%>"/></p>
-                      <input type="submit" class="button" value="Actualizar">
-                      <input type="hidden" name="accion" value="actualizar">
-                </form>
-                </th>
-              </tr>
-          <tr>
-              <th><a class="ref" href="ABMcategorias.jsp" style="color: white">Volver a Categorias</a></th>
-          </tr>
-        </table>
-     </div>
-     <div class="footer">
-      <p>Copyright &copy; Carlos Ben&iacutetez - Tania Leguizam&oacuten</p>
+    <div class="row">
+        <div class="center">
+            <form name="Musuarios" action="ServletUsuario" method="post">
+                <table>
+                    <tr>
+                        <th><p>ID: </p></th>
+                        <th><input type="text" readonly="readonly" value="<%=user.getId_usuario()%>" name ="id"></th>
+                        <th><p>Nombre: </p></th>
+                        <th><input type="text" value="<%=user.getNombre()%>" name ="nombre"></th>
+                        <th><p>Apellido: </p></th>
+                        <th><input type="text" value="<%=user.getApellido()%>" name ="apellido"></th>
+                        <th><p>Nombre de Usuario:</p></th> 
+                        <th><input type="text" value="<%=user.getLogin_name()%>" name ="nombre_user"></th>
+                        <th><p>Tipo Usuario:</p><p>
+                          <input type="radio" name="tipo_usuario" value="0" required="required"> Admin
+                          <input type="radio" name="tipo_usuario" value="1" required="required"> Normal
+                        </p></th>
+                    </tr>
+                    <tr>
+                        
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>                        
+                        <th><input type="hidden" name="accion" value="actualizar">
+                        <input type="submit" class="button" value="Actualizar">
+                        </th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                      
+                    </tr>
+                </table>
+            </form>
+        </div>
+        <div class="footer">
+            <p>Copyright &copy; Carlos Ben&iacutetez - Tania Leguizam&oacuten</p>
+        </div>
     </div>
     </body>
 </html>

@@ -7,6 +7,11 @@
 <%@page import="model.manager.ManagerUsuario"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="model.entidades.Usuarios"%>
+<%
+    HttpSession sesion = request.getSession(true);
+    Usuarios u = (Usuarios)sesion.getAttribute("usuario");
+
+%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -31,23 +36,47 @@
                 <p></p>
                 <div>
                   <ul>
-                    <li><a class="active" href="index.jsp">Inicio</a></li>
+                    <li><a class="active" href="index.jsp">Home</a></li>
                     <li><a href="ABMproductos.jsp">Producto</a></li>
-                    <li><a href="#">La empresa</a></li>
-                    <li style="float:right"><a href="ABMcategorias.jsp">Contactenos</a></li>
+                    <%
+                        if(u != null){
+                    %>
+                        <%
+                            if(u.getTipo_usuario() == 0){
+                        %>
+                            <li><a href="ABMusuarios.jsp">ABM usuarios</a></li>
+                            <li><a href="ABMcategorias.jsp">ABM categoria</a></li>
+                            <li><a href="#">ABM productos</a></li>
+                        <%
+                            }
+                        %>
+                    <%
+                        }
+                    %>
                   </ul>
                 </div>
             </div>
             <div class="column side-header">
-                <p> Bienvenido: </p>
-                <button  class="button" type = "button" >Salir</button>
+                <%
+                    if(u != null){
+                %>
+                    <p> Bienvenido: <%=u.getLogin_name()%></p>
+                <%
+                    }else{
+                %>
+                    <p> Bienvenido:</p>
+                <%
+                    }
+                %>
+                <button  class="button" type = "button"onclick="
+                  location.href='ServletUsuario?accion=salir'" >Salir</button>
                 <button  class="button-carrito" type = "button" ><img src="img/carrito.png"> Comprar</button>
             </div>
         </div>
     </div>
     <div class="row">
         <div class="center">
-            <form>
+            <form name="Ausuarios" action="ServletUsuario" method="post">
                 <table>
                     <tr>
                         <th><p>Nombre: </p></th>
@@ -60,12 +89,28 @@
                         <th><input type="text" value="" name ="pass"></th>
                         <th><p>Tipo Usuario:</p></th>
                         <th></p>
-                          <input type="radio" name="admin" value="0" required="required"> Admin
-                          <input type="radio" name="normal" value="1" required="required"> Normal
+                          <input type="radio" name="tipo_usuario" value="0" required="required"> Admin
+                          <input type="radio" name="tipo_usuario" value="1" required="required"> Normal
                         </p></th>
+                    </tr>
+                    <tr>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th><input type="submit" class="button" value="Insertar">
+                        <input type="hidden" name="accion" value="insertar"></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
                     </tr>
                 </table>
             </form>
+        </div>
+        <div class="footer">
+            <p>Copyright &copy; Carlos Ben&iacutetez - Tania Leguizam&oacuten</p>
         </div>
     </div>
     </body>
