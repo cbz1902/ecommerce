@@ -1,0 +1,178 @@
+/*aplica todo lo que se puso aqui a todos los elemetos de la pagina*/
+* {
+    box-sizing: border-box; /*define el tamaño de la caja y el borde*/
+}
+.ul-a{
+    background: #f44336;
+    padding: 40px;
+    color: white;
+}
+
+ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background-color: #f44336;
+}
+
+li {
+    float: left;
+}
+
+li a {
+    display: block;
+    color: white;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+}
+
+li a:hover:not(.active) {
+    background-color: #f9736c;
+}
+
+.active {
+    background-color:#f9736c;
+}
+
+/*Define como va a estar compuesto el cuerpo*/
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    background-color: #f1f1f1;
+}
+table {
+    border-collapse: collapse;
+    width: 100%;
+}
+td {
+    text-align: left;
+    padding: 8px;
+}
+th{
+    text-align: left;
+    padding: 8px;
+    background-color: #f44336;
+    color: white;
+}
+.img-producto{
+  width: 150px; height: 140px;
+}
+.img-logo{
+  width: 180px; height: 150px;
+}
+.p-stock {
+    border: 2px solid red;
+    border-radius: 5px;
+}
+/* Estilos de header */
+.header {
+    background-color: #f1f1f1;
+    padding: 10px;/*espacio de relleno requerido*/
+    text-align: center;
+    font-size: 15px;
+}
+/*Estilos del boton*/
+.h1-titulo {
+    text-align: center;
+    text-transform: uppercase;
+    color: #f44336;
+}
+
+button {
+    background-color: #f44336;
+    border: none;
+    color: white;
+    padding: 11px 15px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 15px;
+    margin: 4px 2px;
+    cursor: pointer;
+
+}
+/*Estilo del boton ir*/
+.button-ir {
+    padding: 10px 20px;
+    font-size: 14px;
+    margin: 4px 2px;
+}
+.button-carrito{
+    padding: 10px 15px;
+    font-size: 14px;
+    margin: 4px 2px;
+}
+
+/*Estilo de Columnas */
+.column {
+    background-color: #f1f1f1;
+    float: left;
+    padding: 10px;
+}
+
+/*columna del costado*/
+.column.side {
+    width: 20%;
+}
+
+/* columna del medio */
+.column.middle {
+    width: 60%;
+}
+/*columna del costado*/
+.column.side-header {
+    width: 25%;
+}
+
+/* columna del medio header */
+.column.middle-header {
+    width: 50%;
+}
+/* filas despues  */
+.row::after {/*se inserta todo lo que hay en el row despues de que se cargue
+  el row*/
+    content: "";
+    display: table;
+    clear: both;
+}
+
+/* estilos del footer*/
+.footer {
+    background-color: #f1f1f1;
+    padding: 10px;
+    text-align: center;
+}
+
+/*estilos del input*/
+.input{
+  padding:8px;
+  display:block;
+  border:none;
+  border-bottom:1px
+  solid #ccc;
+  width:100%
+}
+/*estilos del boton buscar*/
+.input-buscar{
+  padding:11px;
+  border:none;
+  border-bottom:1px
+  solid #ccc;
+  width:70%
+}
+.input-cantidad{
+  padding:10px;
+  display:block;
+  border:none;
+  border-bottom:1px
+  solid #ccc;
+  width:47%
+}
+/* Responsive  hace que las columnas se apilen una encima de otra en lugar de una al lado de la otra
+@media (max-width: 600px) {
+    .column.side, .column.middle {
+        width: 100%;
+    }
+}
+*/
