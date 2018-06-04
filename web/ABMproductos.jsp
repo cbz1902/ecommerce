@@ -1,9 +1,13 @@
 <%-- 
-    Document   : ABMusuarios
-    Created on : 03/06/2018, 12:17:23
+    Document   : ABMproductos
+    Created on : 03/06/2018, 20:13:49
     Author     : carlos
 --%>
 
+<%@page import="model.manager.ManagerCategoria"%>
+<%@page import="model.entidades.Categoria"%>
+<%@page import="model.manager.ManagerProducto"%>
+<%@page import="model.entidades.Producto"%>
 <%@page import="model.manager.ManagerUsuario"%>
 <%@page import="model.entidades.Usuarios"%>
 <%@page import="java.util.ArrayList"%>
@@ -46,7 +50,7 @@
                         %>
                             <li><a href="ABMusuarios.jsp">ABM usuarios</a></li>
                             <li><a href="ABMcategorias.jsp">ABM categoria</a></li>
-                            <li><a href="#">ABM productos</a></li>
+                            <li><a href="ABMcategorias.jsp">ABM productos</a></li>
                         <%
                             }
                         %>
@@ -75,12 +79,12 @@
         </div>
     </div>
     <div class="center">
-        <h1 class="h1-titulo">Usuarios</h1>
-        <button class="button" type="button" onclick="location.href='/ecommerce/Ausuarios.jsp'">Agregar Usuario</button>
+        <h1 class="h1-titulo">Productos</h1>
+        <button class="button" type="button" onclick="location.href='/ecommerce/Ausuarios.jsp'">Agregar Producto</button>
         <%
-            ArrayList<Usuarios> elem = new ArrayList<Usuarios>();
-            ManagerUsuario mu = new ManagerUsuario();
-            elem = mu.getAll();
+            ArrayList<Producto> elem = new ArrayList<Producto>();
+            ManagerProducto mp = new ManagerProducto();
+            elem = mp.getAll();
         %>
         <%
             if (elem != null) {
@@ -88,34 +92,28 @@
         %>
         <table>
           <tr>
-            <th>Id Usuario</th>
-            <th>Nombre</th>
-            <th>Apellido</th>
-            <th>Nombre Usuario</th>
-            <th>Tipo Usuario</th>
-            <th>Accion</th>
+            <th>ID</th>
+            <th>Descripcion</th>
+            <th>Cartegoria</th>
+            <th>Precio</th>
+            <th>Cantidad</th>
+            <th>Acccion</th>
           </tr>
             <%
-                for (Usuarios list : elem) { 
-            %>
-            <%
-                String tipo;
-                if(list.getTipo_usuario() == 0) {
-                    tipo = "Administrador";
-                }else{
-                    tipo = "Normal";
-                } 
+                for (Producto list : elem) { 
+                    ManagerCategoria mc = new ManagerCategoria();
+                    Categoria c = mc.getCategoriaById(list.getId_categoria());
             %>
           <tr>
-            <td><%=list.getId_usuario()%></td>
-            <td><%=list.getNombre()%></td>
-            <td><%=list.getApellido()%></td>
-            <td><%=list.getLogin_name()%></td>
-            <td><%=tipo%></td>
+            <td><%=list.getId_producto()%></td>
+            <td><%=list.getDescripcion()%></td>
+            <td><%=c.getDescripcion()%></td>
+            <td><%=list.getPrecio_unitario()%> USD</td>
+            <td><%=list.getCantidad()%></td>
             <td><form>
-              <button class="button" type="button" onclick="location.href='/ecommerce/Musuarios.jsp?id=<%=list.getId_usuario()%>'">Editar</button>
+              <button class="button" type="button" onclick="location.href='/ecommerce/Musuarios.jsp?id=<%=list.getId_producto()%>'">Editar</button>
               <button class="button" type="button" onclick="
-                  location.href='ServletUsuario?id=<%=list.getId_usuario()%>&accion=eliminar'">Eliminar</button>
+                  location.href='ServletProducto?id=<%=list.getId_producto()%>&accion=eliminar'">Eliminar</button>
             </form></td>
           </tr>
         <%

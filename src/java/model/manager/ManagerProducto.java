@@ -52,7 +52,7 @@ public class ManagerProducto {
         return true;
     }
 
-    public boolean eliminar(Producto pro) {
+    public boolean eliminar(int id) {
         Connection c = null;
         PreparedStatement pstmt = null;
         boolean ret = false;
@@ -60,7 +60,7 @@ public class ManagerProducto {
             c = connexion.getConnection();
             pstmt = c.prepareStatement("DELETE FROM Producto WHERE id = ?");
 
-            pstmt.setInt(1, pro.getId_producto());
+            pstmt.setInt(1, id);
 
             ret = pstmt.execute();
         } catch (Exception e) {

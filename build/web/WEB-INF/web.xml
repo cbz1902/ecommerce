@@ -1,5 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <web-app version="3.1" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd">
+    <filter>
+        <filter-name>FiltroUserAdmin</filter-name>
+        <filter-class>filter.FiltroUserAdmin</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>FiltroUserAdmin</filter-name>
+        <url-pattern>/ABMusuarios.jsp</url-pattern>
+    </filter-mapping>
+    <filter-mapping>
+        <filter-name>FiltroUserAdmin</filter-name>
+        <url-pattern>/ABMcategorias.jsp</url-pattern>
+    </filter-mapping>
     <servlet>
         <servlet-name>ServletCategoria</servlet-name>
         <servlet-class>controller.ServletCategoria</servlet-class>
@@ -15,5 +27,13 @@
     <servlet-mapping>
         <servlet-name>ServletUsuario</servlet-name>
         <url-pattern>/ServletUsuario</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>ServletProducto</servlet-name>
+        <servlet-class>controller.ServletProducto</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>ServletProducto</servlet-name>
+        <url-pattern>/ServletProducto</url-pattern>
     </servlet-mapping>
 </web-app>

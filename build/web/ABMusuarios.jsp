@@ -9,11 +9,8 @@
 <%@page import="java.util.ArrayList"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%
-    ArrayList<Usuarios> elem;
-    ManagerUsuario mc = new ManagerUsuario();
-    elem = mc.getAll();HttpSession sesion = request.getSession(true);
-    Usuarios u = (Usuarios)sesion.getAttribute("usuario");
-    
+    HttpSession sesion = request.getSession(true);
+    Usuarios user = (Usuarios)sesion.getAttribute("usuario");
 %>
 <!DOCTYPE html>
 <html>
@@ -21,6 +18,7 @@
     <title>Bazar Shop Paraguay</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <link href="css/estilo.css" rel="stylesheet">
+
 </head>
     <body>
     <div>
@@ -41,10 +39,10 @@
                     <li><a class="active" href="index.jsp">Home</a></li>
                     <li><a href="ABMproductos.jsp">Producto</a></li>
                     <%
-                        if(u != null){
+                        if(user != null){
                     %>
                         <%
-                            if(u.getTipo_usuario() == 0){
+                            if(user.getTipo_usuario() == 0){
                         %>
                             <li><a href="ABMusuarios.jsp">ABM usuarios</a></li>
                             <li><a href="ABMcategorias.jsp">ABM categoria</a></li>
@@ -60,9 +58,9 @@
             </div>
             <div class="column side-header">
                 <%
-                    if(u != null){
+                    if(user != null){
                 %>
-                    <p> Bienvenido: <%=u.getLogin_name()%></p>
+                    <p> Bienvenido: <%=user.getLogin_name()%></p>
                 <%
                     }else{
                 %>
@@ -79,6 +77,11 @@
     <div class="center">
         <h1 class="h1-titulo">Usuarios</h1>
         <button class="button" type="button" onclick="location.href='/ecommerce/Ausuarios.jsp'">Agregar Usuario</button>
+        <%
+            ArrayList<Usuarios> elem = new ArrayList<Usuarios>();
+            ManagerUsuario mu = new ManagerUsuario();
+            elem = mu.getAll();
+        %>
         <%
             if (elem != null) {
                 //tengo que dibujar la grilla de usuarios
